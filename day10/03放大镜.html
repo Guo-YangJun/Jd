@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        img {
+            display: block;
+        }
+        .left-box {
+            width: 300px;
+            height: 200px;
+            margin-left: 100px;
+            position: relative;
+            float: left;
+            margin-top: 50px;
+        }
+        .left-box img {
+            width: 300px;
+            height: 200px;
+        }
+        .left-box .move {
+            width: 100px;
+            height: 100px;
+            background: rgba(122,23,145,0.4);
+            position: absolute;
+            left:0;
+            top:0;
+          /*  display: none;*/
+
+        }
+        .right-box {
+            width: 600px;
+            height: 600px;
+            border: 1px solid #ccc;
+            float: left;
+            margin-left: 80px;
+            overflow: hidden;
+            margin-top: 50px;
+            position: relative;
+          /*  display: none;*/
+
+        }
+        .right-box img {
+            position: absolute;
+            top:0;
+            left:0;
+        }
+
+    </style>
+</head>
+<body>
+<div CLASS="left-box">
+    <img src="../day09图/疾风剑豪.jpg" alt="">
+    <div class="move" style="left:0;top:0"></div>
+</div>
+<div class="right-box">
+    <img style="width: 1800px;height: 1200px" src="../day09图/疾风剑豪.jpg" alt="" id="big-pic">
+    
+</div>
+
+
+<script>
+    window.onload = function () {
+        function my$(selector) {
+            return document.querySelector(selector);
+        }
+        var left_box = my$('.left-box');
+        var right_box = my$('.right-box');
+        var move = my$('.move');
+        var big_pic= my$('#big-pic');
+
+        /*鼠标移入阴影块和大盒子显示*/
+       /* left_box.onmouseover = function () {
+            move.style.display= 'block';
+            right_box.style.display= 'block';
+
+
+        }
+        left_box.onmouseout = function () {
+            move.style.display= 'none';
+            right_box.style.display= 'none';
+
+
+        }*/
+        /*move随着鼠标动 :left = clientX-左侧盒子的左边距值-move内盒模型宽度的一半  offsetLeft;  top= y*/
+        left_box.onmousemove = function(e){
+          this.style.cursor = 'move';
+            console.log(move.style.left);
+            /*e.clientX鼠标x坐标*/
+           var newLeft = e.clientX-this.offsetLeft-move.offsetWidth/2 ;
+            var newTop  = e.clientY-this.offsetTop-move.offsetHeight/2;
+            /*左边界*/
+           /* if(newLeft <0){
+                newLeft = 0;
+            }
+            else {
+
+            }*/
+
+           /*条件表达式  表达式1?表达式2:表达式3*/
+            var newLeft = newLeft<0?0:newLeft;
+            var newLeft =  newLeft>this.offsetWidth-move.offsetWidth?this.offsetWidth-move.offsetWidth:newLeft;
+            var newTop = newTop<0?0:newTop;
+            var newTop =  newTop>this.offsetHeight-move.offsetHeight?this.offsetHeight-move.offsetHeight:newTop;
+
+
+
+            move.style.left = newLeft+'px';
+            move.style.top = newTop+'px';
+
+
+            /*move块左偏移值 offsetLeft /picLeft = left_boxW / pic_imgW*/
+            // var bili = left_box.offsetWidth/big_pic.offsetWidth;
+            //
+            // var picLeft = move.offsetLeft/bili ;
+            big_pic.style.left = -newLeft*6+'px';
+            //
+            //
+            // var picTop = move.offsetTop/bili ;
+            big_pic.style.top = -newTop*6+'px';
+
+        }
+
+    }
+
+
+
+</script>
+</body>
+</html>
